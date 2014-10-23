@@ -1,6 +1,6 @@
 package org.dannil.mathalgos.test;
 
-import org.dannil.mathalgos.algorithm.LuhnAlgorithm;
+import org.dannil.mathalgos.algorithm.Luhn;
 
 public class TestLuhn {
 	public static void main(String[] args) {
@@ -11,9 +11,9 @@ public class TestLuhn {
 			System.out.println("Testing range of " + startRange + " to " + endRange[i]);
 			double current_millis = System.currentTimeMillis();
 			for (int j = startRange; j < endRange[i]; j++) {
-				LuhnAlgorithm.calculate(j);
+				Luhn.calculate(j);
 			}
-			System.out.println("New:\t" + (System.currentTimeMillis() - current_millis) / 1000);
+			System.out.println("Time (sec):\t" + (System.currentTimeMillis() - current_millis) / 1000);
 			System.out.println();
 		}
 	}
