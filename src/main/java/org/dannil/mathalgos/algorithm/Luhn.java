@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.dannil.mathalgos.algorithm.helper.NumberHelper;
 
-public class LuhnAlgorithm {
+public class Luhn {
 
 	/***
 	 * Calculates the result of performing the Luhn algorithm on a given
