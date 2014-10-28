@@ -31,11 +31,16 @@ public class PiChudnovsky {
 	private static final BigInteger C3_OVER_24 = C.pow(3).divide(TWENTYFOUR);
 
 	/**
-	 * Computes Pi to the specified amount of decimals and returns it
-	 * as a string with correct delimite
+	 * Computes pi to the specified amount of decimals and returns it
+	 * as a string with correct delimiter. Note that this method transforms 
+	 * pi into a string and performs operations on it, so this method isn't suited
+	 * for benchmarking purposes solely to measure the time to calculate pi.<p>If you need
+	 * this method for benchmarking, please use the underlying computePi(BigInteger) method
+	 * and transform the result into a string after the benchmark.<p>
 	 * 
 	 * @param decimals The amount of decimals to calculate
-	 * @return A String representation of a BigInteger containing truncated pi
+	 * @return A string presentation of a BigInteger containing pi truncated to the amount
+	 * 		   of supplied decimals
 	 */
 	public static String computePiStringPresentation(BigInteger decimals) {
 		String piString = computePi(decimals).toString();
@@ -43,35 +48,32 @@ public class PiChudnovsky {
 	}
 
 	/**
-	 * Computes Pi to the specified amount of decimals
+	 * <p>Computes Pi to the specified amount of decimals.</p>
 	 * 
 	 * @param decimals The amount of decimals to calculate
 	 * @return A BigInteger containing truncated pi
 	 */
 	public static BigInteger computePi(BigInteger decimals) {
 		final double DIGITS_PER_TERM = Math.log10(C3_OVER_24.doubleValue() / 6 / 2 / 6);
-		System.out.println("DIGITS_PER_TERM: " + DIGITS_PER_TERM);
+		// System.out.println("DIGITS_PER_TERM: " + DIGITS_PER_TERM);
 
 		final BigInteger N = BigInteger.valueOf((long) (decimals.doubleValue() / DIGITS_PER_TERM + 1));
-		System.out.println("N: " + N);
+		// System.out.println("N: " + N);
 
 		LinkedList<BigInteger> list = calculateTerms(BigInteger.ZERO, N);
 
-		BigInteger P = list.get(0);
 		BigInteger Q = list.get(1);
 		BigInteger T = list.get(2);
 
-		System.out.println("Q: " + Q);
+		// System.out.println("Q: " + Q);
 
 		BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
-		System.out.println("One squared: " + ONE_SQUARED);
+		// System.out.println("One squared: " + ONE_SQUARED);
 
-		BigInteger SQRT_C = NumberHelper.bigIntSqRootCeil(TENTHOUSHAND.multiply(ONE_SQUARED));
-		System.out.println("SQRT_C: " + SQRT_C);
+		BigInteger SQRT_C = NumberHelper.bigIntSqRootFloor(TENTHOUSHAND.multiply(ONE_SQUARED));
+		// System.out.println("SQRT_C: " + SQRT_C);
 
-		BigInteger FINAL_DECIMAL = Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
-		System.out.println(FINAL_DECIMAL);
-		return FINAL_DECIMAL;
+		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
 	}
 
 	/**
@@ -94,47 +96,41 @@ public class PiChudnovsky {
 		BigInteger Pab;
 		BigInteger Qab;
 		BigInteger Tab;
-		System.out.println("B - A: " + b.subtract(a));
+		// System.out.println("B - A: " + b.subtract(a));
 		if (b.subtract(a).equals(BigInteger.ONE)) {
-			System.out.println("Equals 1");
+			// System.out.println("Equals 1");
 			// Directly compute P(a,a+1), Q(a,a+1) and T(a,a+1)
 			if (a.equals(BigInteger.ZERO)) {
-				System.out.println("Equals 0");
+				// System.out.println("Equals 0");
 				BigInteger tmp1 = new BigInteger("1");
 				Pab = tmp1;
 				Qab = tmp1;
-				System.out.println("Pab: " + Pab);
+				// System.out.println("Pab: " + Pab);
 			} else {
-				BigInteger tmp1 = a.multiply(SIX).subtract(FIVE);
-				BigInteger tmp2 = a.multiply(TWO).subtract(BigInteger.ONE);
-				BigInteger tmp3 = a.multiply(SIX).subtract(BigInteger.ONE);
-				Pab = tmp1.multiply(tmp2).multiply(tmp3);
-				System.out.println("Pab in else: " + Pab);
+				Pab = a.multiply(SIX).subtract(FIVE).multiply(a.multiply(TWO).subtract(BigInteger.ONE).multiply(a.multiply(SIX).subtract(BigInteger.ONE)));
+				// System.out.println("Pab in else: " + Pab);
 
 				Qab = C3_OVER_24.multiply(a).multiply(a).multiply(a);
-				System.out.println("Qab in else: " + Qab);
+				// System.out.println("Qab in else: " + Qab);
 			}
 
 			// a(a) * p(a)
 			Tab = Pab.multiply(a.multiply(FIVEHUNDREDFOURTYFIVEMILLION).add(THIRTEENMILLION));
-			System.out.println("Tab: " + Tab);
+			// System.out.println("Tab: " + Tab);
 
-			// Unsure, seems to work; needs more testing
-			BigInteger bi = a.mod(TWO);
-			System.out.println("bi: " + bi);
-			if (bi.equals(BigInteger.ONE)) {
-				System.out.println("bitshift");
-				System.out.println("Tab before bitshift: " + Tab);
+			if (a.mod(TWO).equals(BigInteger.ONE)) {
+				// System.out.println("bitshift");
+				// System.out.println("Tab before bitshift: " + Tab);
 				Tab = Tab.multiply(MINUS_ONE);
-				System.out.println("Tab bitshift: " + Tab);
+				// System.out.println("Tab bitshift: " + Tab);
 			}
 		} else {
-			System.out.println("Inside else 2");
+			// System.out.println("Inside else 2");
 
 			// Recursively compute P(a,b), Q(a,b) and T(a,b)
 			// m is the midpoint of a and b
 			BigInteger m = a.add(b).divide(TWO);
-			System.out.println("M: " + m);
+			// System.out.println("M: " + m);
 
 			// Recursively calculate P(a,m), Q(a,m) and T(a,m)
 			LinkedList<BigInteger> list_am = calculateTerms(a, m);
@@ -148,21 +144,21 @@ public class PiChudnovsky {
 			BigInteger Qmb = list_mb.get(1);
 			BigInteger Tmb = list_mb.get(2);
 
-			System.out.println("Pam in else 2: " + Pam);
-			System.out.println("Qam in else 2: " + Qam);
-			System.out.println("Tam in else 2: " + Tam);
-			System.out.println("Pmb in else 2: " + Pmb);
-			System.out.println("Qmb in else 2: " + Qmb);
-			System.out.println("Tmb in else 2: " + Tmb);
+			// System.out.println("Pam in else 2: " + Pam);
+			// System.out.println("Qam in else 2: " + Qam);
+			// System.out.println("Tam in else 2: " + Tam);
+			// System.out.println("Pmb in else 2: " + Pmb);
+			// System.out.println("Qmb in else 2: " + Qmb);
+			// System.out.println("Tmb in else 2: " + Tmb);
 
 			// Now combine
 			Pab = Pam.multiply(Pmb);
 			Qab = Qam.multiply(Qmb);
 			Tab = (Qmb.multiply(Tam)).add((Pam.multiply(Tmb)));
 
-			System.out.println("Pab in else 2: " + Pab);
-			System.out.println("Qab in else 2: " + Qab);
-			System.out.println("Tab in else 2: " + Tab);
+			// System.out.println("Pab in else 2: " + Pab);
+			// System.out.println("Qab in else 2: " + Qab);
+			// System.out.println("Tab in else 2: " + Tab);
 		}
 
 		// Return Pab, Qab and Tab in a list
