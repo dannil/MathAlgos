@@ -32,17 +32,9 @@ public class PiChudnovsky {
 	private static BigDecimal Qab;
 	private static BigDecimal Tab;
 
-	private static BigDecimal Pam;
-	private static BigDecimal Qam;
-	private static BigDecimal Tam;
-
-	private static BigDecimal Pmb;
-	private static BigDecimal Qmb;
-	private static BigDecimal Tmb;
-
 	public static BigDecimal debug() {
 		System.out.println("C3_OVER_24: " + C3_OVER_24);
-		return computePi(new BigInteger("27"));
+		return computePi(new BigInteger("50"));
 	}
 
 	/**
@@ -72,7 +64,7 @@ public class PiChudnovsky {
 
 		BigDecimal ONE_SQUARED = BigDecimal.TEN.pow(2 * decimals.intValue());
 		System.out.println("One squared: " + ONE_SQUARED);
-		BigDecimal SQRT_C = NumberHelper.bigSqrt(new BigDecimal(TENTHOUSHAND).multiply(ONE_SQUARED));
+		BigDecimal SQRT_C = NumberHelper.sqrt(new BigDecimal(TENTHOUSHAND).multiply(ONE_SQUARED));
 		System.out.println("SQRT_C: " + SQRT_C);
 
 		System.out.println("Q: " + Q);
@@ -124,11 +116,12 @@ public class PiChudnovsky {
 			Tab = Pab.multiply(new BigDecimal(a.multiply(FIVEHUNDREDFOURTYFIVEMILLION).add(THIRTEENMILLION)));
 			System.out.println("Tab: " + Tab);
 
-			System.out.println("Bitcount: " + a.bitCount());
-			// UNSURE
-			Integer bitCount = a.bitCount();
-			if (bitCount.equals(1)) {
+			// Unsure, seems to work; needs more testing
+			BigInteger bi = a.mod(TWO);
+			System.out.println("bi: " + bi);
+			if (bi.equals(BigInteger.ONE)) {
 				System.out.println("bitshift");
+				System.out.println("Tab before bitshift: " + Tab);
 				Tab = Tab.multiply(new BigDecimal(MINUS_ONE));
 				System.out.println("Tab bitshift: " + Tab);
 			}
@@ -141,21 +134,25 @@ public class PiChudnovsky {
 			System.out.println("M: " + m);
 
 			// Recursively calculate P(a,m), Q(a,m) and T(a,m)
-			LinkedList<BigDecimal> list = calculateTerms(a, m);
-			Pam = list.get(0);
-			Qam = list.get(1);
-			Tam = list.get(2);
+			LinkedList<BigDecimal> list_am = calculateTerms(a, m);
+			BigDecimal Pam = list_am.get(0);
+			BigDecimal Qam = list_am.get(1);
+			BigDecimal Tam = list_am.get(2);
 
 			// Recursively calculate P(m,b), Q(m,b) and T(m,b)
-			LinkedList<BigDecimal> list2 = calculateTerms(m, b);
-			Pmb = list2.get(0);
-			Qmb = list2.get(1);
-			Tmb = list2.get(2);
+			LinkedList<BigDecimal> list_mb = calculateTerms(m, b);
+			BigDecimal Pmb = list_mb.get(0);
+			BigDecimal Qmb = list_mb.get(1);
+			BigDecimal Tmb = list_mb.get(2);
 
 			// Now combine
 			Pab = Pam.multiply(Pmb);
 			Qab = Qam.multiply(Qmb);
 			Tab = (Qmb.multiply(Tam)).add((Pam.multiply(Tmb)));
+
+			System.out.println("Pab in else 2: " + Pab);
+			System.out.println("Qab in else 2: " + Qab);
+			System.out.println("Tab in else 2: " + Tab);
 		}
 
 		// Return Pab, Qab and Tab in a list
