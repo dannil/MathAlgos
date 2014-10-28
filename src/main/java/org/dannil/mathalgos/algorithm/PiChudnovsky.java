@@ -31,10 +31,10 @@ public class PiChudnovsky {
 	private static final BigInteger C3_OVER_24 = C.pow(3).divide(TWENTYFOUR);
 
 	/**
-	 * Computes pi to the specified amount of decimals and returns it
+	 * <p>Computes pi to the specified amount of decimals and returns it
 	 * as a string with correct delimiter. Note that this method transforms 
 	 * pi into a string and performs operations on it, so this method isn't suited
-	 * for benchmarking purposes solely to measure the time to calculate pi.<p>If you need
+	 * for benchmarking purposes solely to measure the time to calculate pi.</p><p>If you need
 	 * this method for benchmarking, please use the underlying computePi(BigInteger) method
 	 * and transform the result into a string after the benchmark.<p>
 	 * 
