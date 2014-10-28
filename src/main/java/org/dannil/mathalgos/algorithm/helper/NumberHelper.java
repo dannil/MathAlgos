@@ -1,6 +1,5 @@
 package org.dannil.mathalgos.algorithm.helper;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -31,13 +30,22 @@ public class NumberHelper {
 	/**
 	 * Calculates the square root of the supplied BigDecimal.
 	 * 
-	 * @param value 
+	 * @param x 
 	 * 				  - The value to be calculated
 	 * @return The square root of value
 	 */
-	public static BigDecimal sqrt(BigDecimal value) {
-		BigDecimal x = new BigDecimal(Math.sqrt(value.doubleValue()));
-		return x.add(new BigDecimal(value.subtract(x.multiply(x)).doubleValue() / (x.doubleValue() * 2.0)));
+	public static BigInteger sqrt(BigInteger x) {
+		BigInteger div = BigInteger.ZERO.setBit(x.bitLength() / 2);
+		BigInteger div2 = div;
+		// Loop until we hit the same value twice in a row, or wind
+		// up alternating.
+		for (;;) {
+			BigInteger y = div.add(x.divide(div)).shiftRight(1);
+			if (y.equals(div) || y.equals(div2))
+				return y;
+			div2 = div;
+			div = y;
+		}
 	}
 
 	public static BigInteger bigIntSqRootFloor(BigInteger x) throws IllegalArgumentException {

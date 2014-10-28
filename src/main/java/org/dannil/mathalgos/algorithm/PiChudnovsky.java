@@ -3,6 +3,7 @@ package org.dannil.mathalgos.algorithm;
 import java.math.BigInteger;
 import java.util.LinkedList;
 
+import org.dannil.mathalgos.algorithm.helper.BenchmarkHelper;
 import org.dannil.mathalgos.algorithm.helper.NumberHelper;
 
 /**
@@ -30,6 +31,8 @@ public class PiChudnovsky {
 	private static final BigInteger FIVEHUNDREDFOURTYFIVEMILLION = new BigInteger("545140134");
 	private static final BigInteger C3_OVER_24 = C.pow(3).divide(TWENTYFOUR);
 
+	private static final BenchmarkHelper benchmarkHelper = new BenchmarkHelper();
+
 	/**
 	 * <p>Computes pi to the specified amount of decimals and returns it
 	 * as a string with correct delimiter. Note that this method transforms 
@@ -38,7 +41,8 @@ public class PiChudnovsky {
 	 * this method for benchmarking, please use the underlying computePi(BigInteger) method
 	 * and transform the result into a string after the benchmark.<p>
 	 * 
-	 * @param decimals The amount of decimals to calculate
+	 * @param decimals 
+	 * 					The amount of decimals to calculate
 	 * @return A string presentation of a BigInteger containing pi truncated to the amount
 	 * 		   of supplied decimals
 	 */
@@ -50,7 +54,8 @@ public class PiChudnovsky {
 	/**
 	 * <p>Computes Pi to the specified amount of decimals.</p>
 	 * 
-	 * @param decimals The amount of decimals to calculate
+	 * @param decimals 
+	 * 					The amount of decimals to calculate
 	 * @return A BigInteger containing truncated pi
 	 */
 	public static BigInteger computePi(BigInteger decimals) {
@@ -70,14 +75,17 @@ public class PiChudnovsky {
 		BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
 		// System.out.println("One squared: " + ONE_SQUARED);
 
-		BigInteger SQRT_C = NumberHelper.bigIntSqRootFloor(TENTHOUSHAND.multiply(ONE_SQUARED));
+		benchmarkHelper.startBench();
+		BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
+		benchmarkHelper.stopBench();
+		System.out.println("Bench for SQRT_C: " + benchmarkHelper.getBenchTimeInSeconds());
 		// System.out.println("SQRT_C: " + SQRT_C);
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
 	}
 
 	/**
-	 * <p>Computes the terms for binary splitting the Chudnovsky infinite series</p>
+	 * <p>Computes the terms for binary splitting the Chudnovsky infinite series.</p>
 	 *
 	 * - a(a) = +/- (13591409 + 545140134*a)<br>
 	 * - p(a) = (6*a-5)*(2*a-1)*(6*a-1)<br>
@@ -90,7 +98,6 @@ public class PiChudnovsky {
 	 * @param b
 	 *            End value (the number of decimals to calculate)
 	 * @return P(a,b), Q(a,b) and T(a,b)
-	 * @throws Exception
 	 */
 	private static LinkedList<BigInteger> calculateTerms(BigInteger a, BigInteger b) {
 		BigInteger Pab;
@@ -102,9 +109,8 @@ public class PiChudnovsky {
 			// Directly compute P(a,a+1), Q(a,a+1) and T(a,a+1)
 			if (a.equals(BigInteger.ZERO)) {
 				// System.out.println("Equals 0");
-				BigInteger tmp1 = new BigInteger("1");
-				Pab = tmp1;
-				Qab = tmp1;
+				Pab = BigInteger.ONE;
+				Qab = BigInteger.ONE;
 				// System.out.println("Pab: " + Pab);
 			} else {
 				Pab = a.multiply(SIX).subtract(FIVE).multiply(a.multiply(TWO).subtract(BigInteger.ONE).multiply(a.multiply(SIX).subtract(BigInteger.ONE)));
@@ -118,12 +124,15 @@ public class PiChudnovsky {
 			Tab = Pab.multiply(a.multiply(FIVEHUNDREDFOURTYFIVEMILLION).add(THIRTEENMILLION));
 			// System.out.println("Tab: " + Tab);
 
+			benchmarkHelper.startBench();
 			if (a.mod(TWO).equals(BigInteger.ONE)) {
 				// System.out.println("bitshift");
 				// System.out.println("Tab before bitshift: " + Tab);
 				Tab = Tab.multiply(MINUS_ONE);
 				// System.out.println("Tab bitshift: " + Tab);
 			}
+			benchmarkHelper.stopBench();
+			System.out.println("Bench for a.mod(TWO): " + benchmarkHelper.getBenchTimeInSeconds());
 		} else {
 			// System.out.println("Inside else 2");
 
