@@ -1,7 +1,6 @@
 package org.dannil.mathalgos.algorithm;
 
 import java.math.BigInteger;
-import java.util.LinkedList;
 
 import org.dannil.mathalgos.algorithm.helper.BenchmarkHelper;
 import org.dannil.mathalgos.algorithm.helper.NumberHelper;
@@ -25,11 +24,15 @@ public class PiChudnovsky {
 	private static final BigInteger SIX = new BigInteger("6");
 	private static final BigInteger TWENTYFOUR = new BigInteger("24");
 	private static final BigInteger TENTHOUSHAND = new BigInteger("10005");
-	private static final BigInteger C = new BigInteger("640320");
+	private static final BigInteger SIXHUNDREDFOURTYTHOUSAND = new BigInteger("640320");
 	private static final BigInteger FOURHUNDREDTHOUSAND = new BigInteger("426880");
 	private static final BigInteger THIRTEENMILLION = new BigInteger("13591409");
 	private static final BigInteger FIVEHUNDREDFOURTYFIVEMILLION = new BigInteger("545140134");
-	private static final BigInteger C3_OVER_24 = C.pow(3).divide(TWENTYFOUR);
+	private static final BigInteger SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24 = SIXHUNDREDFOURTYTHOUSAND.pow(3).divide(TWENTYFOUR);
+
+	private static BigInteger Pab;
+	private static BigInteger Qab;
+	private static BigInteger Tab;
 
 	private static final BenchmarkHelper benchmarkHelper = new BenchmarkHelper();
 
@@ -59,16 +62,15 @@ public class PiChudnovsky {
 	 * @return A BigInteger containing truncated pi
 	 */
 	public static BigInteger computePi(BigInteger decimals) {
-		final double DIGITS_PER_TERM = Math.log10(C3_OVER_24.doubleValue() / 6 / 2 / 6);
-		// System.out.println("DIGITS_PER_TERM: " + DIGITS_PER_TERM);
+		final double DIGITS_PER_TERM = Math.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.doubleValue() / 6 / 2 / 6);
 
 		final BigInteger N = BigInteger.valueOf((long) (decimals.doubleValue() / DIGITS_PER_TERM + 1));
 		// System.out.println("N: " + N);
 
-		LinkedList<BigInteger> list = calculateTerms(BigInteger.ZERO, N);
+		BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
 
-		BigInteger Q = list.get(1);
-		BigInteger T = list.get(2);
+		BigInteger Q = array[1];
+		BigInteger T = array[2];
 
 		// System.out.println("Q: " + Q);
 
@@ -99,10 +101,7 @@ public class PiChudnovsky {
 	 *            End value (the number of decimals to calculate)
 	 * @return P(a,b), Q(a,b) and T(a,b)
 	 */
-	private static LinkedList<BigInteger> calculateTerms(BigInteger a, BigInteger b) {
-		BigInteger Pab;
-		BigInteger Qab;
-		BigInteger Tab;
+	private static BigInteger[] calculateTerms(BigInteger a, BigInteger b) {
 		// System.out.println("B - A: " + b.subtract(a));
 		if (b.subtract(a).equals(BigInteger.ONE)) {
 			// System.out.println("Equals 1");
@@ -116,7 +115,7 @@ public class PiChudnovsky {
 				Pab = a.multiply(SIX).subtract(FIVE).multiply(a.multiply(TWO).subtract(BigInteger.ONE).multiply(a.multiply(SIX).subtract(BigInteger.ONE)));
 				// System.out.println("Pab in else: " + Pab);
 
-				Qab = C3_OVER_24.multiply(a).multiply(a).multiply(a);
+				Qab = SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.multiply(a).multiply(a).multiply(a);
 				// System.out.println("Qab in else: " + Qab);
 			}
 
@@ -124,15 +123,12 @@ public class PiChudnovsky {
 			Tab = Pab.multiply(a.multiply(FIVEHUNDREDFOURTYFIVEMILLION).add(THIRTEENMILLION));
 			// System.out.println("Tab: " + Tab);
 
-			benchmarkHelper.startBench();
 			if (a.mod(TWO).equals(BigInteger.ONE)) {
 				// System.out.println("bitshift");
 				// System.out.println("Tab before bitshift: " + Tab);
 				Tab = Tab.multiply(MINUS_ONE);
 				// System.out.println("Tab bitshift: " + Tab);
 			}
-			benchmarkHelper.stopBench();
-			System.out.println("Bench for a.mod(TWO): " + benchmarkHelper.getBenchTimeInSeconds());
 		} else {
 			// System.out.println("Inside else 2");
 
@@ -142,16 +138,16 @@ public class PiChudnovsky {
 			// System.out.println("M: " + m);
 
 			// Recursively calculate P(a,m), Q(a,m) and T(a,m)
-			LinkedList<BigInteger> list_am = calculateTerms(a, m);
-			BigInteger Pam = list_am.get(0);
-			BigInteger Qam = list_am.get(1);
-			BigInteger Tam = list_am.get(2);
+			BigInteger[] array_am = calculateTerms(a, m);
+			BigInteger Pam = array_am[0];
+			BigInteger Qam = array_am[1];
+			BigInteger Tam = array_am[2];
 
 			// Recursively calculate P(m,b), Q(m,b) and T(m,b)
-			LinkedList<BigInteger> list_mb = calculateTerms(m, b);
-			BigInteger Pmb = list_mb.get(0);
-			BigInteger Qmb = list_mb.get(1);
-			BigInteger Tmb = list_mb.get(2);
+			BigInteger[] list_mb = calculateTerms(m, b);
+			BigInteger Pmb = list_mb[0];
+			BigInteger Qmb = list_mb[1];
+			BigInteger Tmb = list_mb[2];
 
 			// System.out.println("Pam in else 2: " + Pam);
 			// System.out.println("Qam in else 2: " + Qam);
@@ -171,11 +167,11 @@ public class PiChudnovsky {
 		}
 
 		// Return Pab, Qab and Tab in a list
-		LinkedList<BigInteger> list = new LinkedList<BigInteger>();
-		list.add(Pab);
-		list.add(Qab);
-		list.add(Tab);
+		BigInteger[] array = new BigInteger[3];
+		array[0] = Pab;
+		array[1] = Qab;
+		array[2] = Tab;
 
-		return list;
+		return array;
 	}
 }
