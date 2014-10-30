@@ -42,7 +42,7 @@ public class PiChudnovsky {
 	 * and transform the result into a string after the benchmark.<p>
 	 * 
 	 * @param decimals 
-	 * 					The amount of decimals to calculate
+	 * 					- The amount of decimals to calculate
 	 * @return A string presentation of a BigInteger containing pi truncated to the amount
 	 * 		   of supplied decimals
 	 */
@@ -55,7 +55,7 @@ public class PiChudnovsky {
 	 * <p>Computes Pi to the specified amount of decimals.</p>
 	 * 
 	 * @param decimals 
-	 * 					The amount of decimals to calculate
+	 * 					- The amount of decimals to calculate
 	 * @return A BigInteger containing truncated pi
 	 */
 	public static BigInteger computePi(BigInteger decimals) {
@@ -86,13 +86,13 @@ public class PiChudnovsky {
 	 * - a(a) = +/- (13591409 + 545140134*a)<br>
 	 * - p(a) = (6*a-5)*(2*a-1)*(6*a-1)<br>
 	 * - b(a) = 1<br>
-	 * - q(a) = a*a*a*C3_OVER_24<br>
+	 * - q(a) = a*a*a*SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24<br>
 	 * <br>
 	 *
 	 * @param a
-	 *            Start value (default BigInteger.ZERO)
+	 *            - Start value (default BigInteger.ZERO)
 	 * @param b
-	 *            End value (the number of decimals to calculate)
+	 *            - End value (the number of decimals to calculate)
 	 * @return P(a,b), Q(a,b) and T(a,b)
 	 */
 	private static BigInteger[] calculateTerms(BigInteger a, BigInteger b) {
