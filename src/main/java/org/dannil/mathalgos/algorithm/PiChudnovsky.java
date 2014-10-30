@@ -2,7 +2,6 @@ package org.dannil.mathalgos.algorithm;
 
 import java.math.BigInteger;
 
-import org.dannil.mathalgos.algorithm.helper.BenchmarkHelper;
 import org.dannil.mathalgos.algorithm.helper.NumberHelper;
 
 /**
@@ -33,8 +32,6 @@ public class PiChudnovsky {
 	private static BigInteger Pab;
 	private static BigInteger Qab;
 	private static BigInteger Tab;
-
-	private static final BenchmarkHelper benchmarkHelper = new BenchmarkHelper();
 
 	/**
 	 * <p>Computes pi to the specified amount of decimals and returns it
@@ -77,10 +74,7 @@ public class PiChudnovsky {
 		BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
 		// System.out.println("One squared: " + ONE_SQUARED);
 
-		benchmarkHelper.startBench();
 		BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
-		benchmarkHelper.stopBench();
-		System.out.println("Bench for SQRT_C: " + benchmarkHelper.getBenchTimeInSeconds());
 		// System.out.println("SQRT_C: " + SQRT_C);
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);

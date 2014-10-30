@@ -41,10 +41,6 @@ public class PiMachin {
 	/** rounding mode to use during pi computation */
 	private static final int roundingMode = BigDecimal.ROUND_HALF_EVEN;
 
-	public static BigDecimal compute(int decimals) {
-		return computePi(decimals);
-	}
-
 	/**
 	 * Compute the value of pi to the specified number of digits after the
 	 * decimal point. The value is computed using Machin's formula:
@@ -53,7 +49,7 @@ public class PiMachin {
 	 *
 	 * and a power series expansion of arctan(x) to sufficient precision.
 	 */
-	private static BigDecimal computePi(int decimals) {
+	public static BigDecimal computePi(int decimals) {
 		int scale = decimals + 5;
 		BigDecimal arctan1_5 = arctan(5, scale);
 		BigDecimal arctan1_239 = arctan(239, scale);
