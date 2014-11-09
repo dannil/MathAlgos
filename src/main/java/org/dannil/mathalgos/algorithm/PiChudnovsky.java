@@ -62,20 +62,15 @@ public class PiChudnovsky {
 		final double DIGITS_PER_TERM = Math.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.doubleValue() / 6 / 2 / 6);
 
 		final BigInteger N = BigInteger.valueOf((long) (decimals.doubleValue() / DIGITS_PER_TERM + 1));
-		// System.out.println("N: " + N);
 
 		BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
 
 		BigInteger Q = array[1];
 		BigInteger T = array[2];
 
-		// System.out.println("Q: " + Q);
-
 		BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
-		// System.out.println("One squared: " + ONE_SQUARED);
 
 		BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
-		// System.out.println("SQRT_C: " + SQRT_C);
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
 	}
@@ -86,7 +81,7 @@ public class PiChudnovsky {
 	 * - a(a) = +/- (13591409 + 545140134*a)<br>
 	 * - p(a) = (6*a-5)*(2*a-1)*(6*a-1)<br>
 	 * - b(a) = 1<br>
-	 * - q(a) = a*a*a*SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24<br>
+	 * - q(a) = SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24*a*a*a<br>
 	 * <br>
 	 *
 	 * @param a
@@ -96,40 +91,27 @@ public class PiChudnovsky {
 	 * @return P(a,b), Q(a,b) and T(a,b)
 	 */
 	private static BigInteger[] calculateTerms(BigInteger a, BigInteger b) {
-		// System.out.println("B - A: " + b.subtract(a));
 		if (b.subtract(a).equals(BigInteger.ONE)) {
-			// System.out.println("Equals 1");
 			// Directly compute P(a,a+1), Q(a,a+1) and T(a,a+1)
 			if (a.equals(BigInteger.ZERO)) {
-				// System.out.println("Equals 0");
 				Pab = BigInteger.ONE;
 				Qab = BigInteger.ONE;
-				// System.out.println("Pab: " + Pab);
 			} else {
 				Pab = a.multiply(SIX).subtract(FIVE).multiply(a.multiply(TWO).subtract(BigInteger.ONE).multiply(a.multiply(SIX).subtract(BigInteger.ONE)));
-				// System.out.println("Pab in else: " + Pab);
 
 				Qab = SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.multiply(a).multiply(a).multiply(a);
-				// System.out.println("Qab in else: " + Qab);
 			}
 
 			// a(a) * p(a)
 			Tab = Pab.multiply(a.multiply(FIVEHUNDREDFOURTYFIVEMILLION).add(THIRTEENMILLION));
-			// System.out.println("Tab: " + Tab);
 
 			if (a.mod(TWO).equals(BigInteger.ONE)) {
-				// System.out.println("bitshift");
-				// System.out.println("Tab before bitshift: " + Tab);
 				Tab = Tab.multiply(MINUS_ONE);
-				// System.out.println("Tab bitshift: " + Tab);
 			}
 		} else {
-			// System.out.println("Inside else 2");
-
 			// Recursively compute P(a,b), Q(a,b) and T(a,b)
 			// m is the midpoint of a and b
 			BigInteger m = a.add(b).divide(TWO);
-			// System.out.println("M: " + m);
 
 			// Recursively calculate P(a,m), Q(a,m) and T(a,m)
 			BigInteger[] array_am = calculateTerms(a, m);
@@ -138,29 +120,18 @@ public class PiChudnovsky {
 			BigInteger Tam = array_am[2];
 
 			// Recursively calculate P(m,b), Q(m,b) and T(m,b)
-			BigInteger[] list_mb = calculateTerms(m, b);
-			BigInteger Pmb = list_mb[0];
-			BigInteger Qmb = list_mb[1];
-			BigInteger Tmb = list_mb[2];
-
-			// System.out.println("Pam in else 2: " + Pam);
-			// System.out.println("Qam in else 2: " + Qam);
-			// System.out.println("Tam in else 2: " + Tam);
-			// System.out.println("Pmb in else 2: " + Pmb);
-			// System.out.println("Qmb in else 2: " + Qmb);
-			// System.out.println("Tmb in else 2: " + Tmb);
+			BigInteger[] array_mb = calculateTerms(m, b);
+			BigInteger Pmb = array_mb[0];
+			BigInteger Qmb = array_mb[1];
+			BigInteger Tmb = array_mb[2];
 
 			// Now combine
 			Pab = Pam.multiply(Pmb);
 			Qab = Qam.multiply(Qmb);
 			Tab = (Qmb.multiply(Tam)).add((Pam.multiply(Tmb)));
-
-			// System.out.println("Pab in else 2: " + Pab);
-			// System.out.println("Qab in else 2: " + Qab);
-			// System.out.println("Tab in else 2: " + Tab);
 		}
 
-		// Return Pab, Qab and Tab in a list
+		// Return Pab, Qab and Tab in an array
 		BigInteger[] array = new BigInteger[3];
 		array[0] = Pab;
 		array[1] = Qab;
