@@ -46,7 +46,7 @@ public class PiChudnovsky {
 	 * @return A string presentation of a BigInteger containing pi truncated to the amount
 	 * 		   of supplied decimals
 	 */
-	public static String computePiStringPresentation(BigInteger decimals) {
+	public static final String computePiStringPresentation(BigInteger decimals) {
 		String piString = computePi(decimals).toString();
 		return new StringBuffer(piString).insert(1, ".").toString();
 	}
@@ -58,19 +58,19 @@ public class PiChudnovsky {
 	 * 					- The amount of decimals to calculate
 	 * @return A BigInteger containing truncated pi
 	 */
-	public static BigInteger computePi(BigInteger decimals) {
+	public static final BigInteger computePi(BigInteger decimals) {
 		final double DIGITS_PER_TERM = Math.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.doubleValue() / 6 / 2 / 6);
 
 		final BigInteger N = BigInteger.valueOf((long) (decimals.doubleValue() / DIGITS_PER_TERM + 1));
 
-		BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
+		final BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
 
-		BigInteger Q = array[1];
-		BigInteger T = array[2];
+		final BigInteger Q = array[1];
+		final BigInteger T = array[2];
 
-		BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
+		final BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
 
-		BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
+		final BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
 	}
@@ -90,7 +90,7 @@ public class PiChudnovsky {
 	 *            - End value (the number of decimals to calculate)
 	 * @return P(a,b), Q(a,b) and T(a,b)
 	 */
-	private static BigInteger[] calculateTerms(BigInteger a, BigInteger b) {
+	private static final BigInteger[] calculateTerms(final BigInteger a, final BigInteger b) {
 		if (b.subtract(a).equals(BigInteger.ONE)) {
 			// Directly compute P(a,a+1), Q(a,a+1) and T(a,a+1)
 			if (a.equals(BigInteger.ZERO)) {
@@ -111,19 +111,19 @@ public class PiChudnovsky {
 		} else {
 			// Recursively compute P(a,b), Q(a,b) and T(a,b)
 			// m is the midpoint of a and b
-			BigInteger m = a.add(b).divide(TWO);
+			final BigInteger m = a.add(b).divide(TWO);
 
 			// Recursively calculate P(a,m), Q(a,m) and T(a,m)
-			BigInteger[] array_am = calculateTerms(a, m);
-			BigInteger Pam = array_am[0];
-			BigInteger Qam = array_am[1];
-			BigInteger Tam = array_am[2];
+			final BigInteger[] array_am = calculateTerms(a, m);
+			final BigInteger Pam = array_am[0];
+			final BigInteger Qam = array_am[1];
+			final BigInteger Tam = array_am[2];
 
 			// Recursively calculate P(m,b), Q(m,b) and T(m,b)
-			BigInteger[] array_mb = calculateTerms(m, b);
-			BigInteger Pmb = array_mb[0];
-			BigInteger Qmb = array_mb[1];
-			BigInteger Tmb = array_mb[2];
+			final BigInteger[] array_mb = calculateTerms(m, b);
+			final BigInteger Pmb = array_mb[0];
+			final BigInteger Qmb = array_mb[1];
+			final BigInteger Tmb = array_mb[2];
 
 			// Now combine
 			Pab = Pam.multiply(Pmb);
@@ -132,7 +132,7 @@ public class PiChudnovsky {
 		}
 
 		// Return Pab, Qab and Tab in an array
-		BigInteger[] array = new BigInteger[3];
+		final BigInteger[] array = new BigInteger[3];
 		array[0] = Pab;
 		array[1] = Qab;
 		array[2] = Tab;
