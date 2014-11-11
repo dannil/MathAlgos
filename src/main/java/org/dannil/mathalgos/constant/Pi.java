@@ -15,7 +15,7 @@ import org.dannil.mathalgos.algorithm.PiMachin;
  */
 public class Pi {
 
-	public static Double pi = Math.PI;
+	public static final Double pi = Math.PI;
 
 	/**
 	 * Calculate Pi with the Chudnovsky borthers' formula
