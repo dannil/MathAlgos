@@ -68,6 +68,9 @@ public class PiChudnovsky {
 		final BigInteger Q = array[1];
 		final BigInteger T = array[2];
 
+		// THE THREE LINES BELOW CONTRIBUTE TO THE MAJOR RUNNING TIME
+		// (ESPECIALLY LINE 3); THIS NEEDS TO BE OPTIMIZED TO REDUCE THE RUNNING
+		// TIME SIGNIFICANTLY
 		final BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
 
 		final BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
