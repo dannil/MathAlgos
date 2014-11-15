@@ -34,17 +34,17 @@ public class PiBBP {
 	}
 
 	public static String computePi(BigInteger decimals) {
-		BigInteger n = decimals.subtract(BigInteger.ONE);
-		BigDecimal first = new BigDecimal(FOUR).multiply(calculateSum(BigInteger.ONE, n));
-		BigDecimal second = new BigDecimal(TWO).multiply(calculateSum(FOUR, n));
-		BigDecimal third = calculateSum(FIVE, n);
-		BigDecimal fourth = calculateSum(SIX, n);
-		BigDecimal x = first.subtract(second).subtract(third).subtract(fourth).remainder(BigDecimal.ONE);
+		final BigInteger n = decimals.subtract(BigInteger.ONE);
+		final BigDecimal first = new BigDecimal(FOUR).multiply(calculateSum(BigInteger.ONE, n));
+		final BigDecimal second = new BigDecimal(TWO).multiply(calculateSum(FOUR, n));
+		final BigDecimal third = calculateSum(FIVE, n);
+		final BigDecimal fourth = calculateSum(SIX, n);
+		final BigDecimal x = first.subtract(second).subtract(third).subtract(fourth).remainder(BigDecimal.ONE);
 		System.out.println(x);
 		return x.toString();
 	}
 
-	public static BigDecimal calculateSum(final BigInteger j, final BigInteger n) {
+	private static BigDecimal calculateSum(final BigInteger j, final BigInteger n) {
 		// Left sum
 		s = new BigDecimal("0");
 
