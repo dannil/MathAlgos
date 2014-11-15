@@ -10,23 +10,23 @@ public class PiBBP {
 
 	private static final int scale = 20;
 
-	static BigInteger MINUS_ONE = new BigInteger("-1");
-	static BigInteger TWO = new BigInteger("2");
-	static BigInteger FOUR = new BigInteger("4");
-	static BigInteger FIVE = new BigInteger("5");
-	static BigInteger SIX = new BigInteger("6");
-	static BigInteger EIGHT = new BigInteger("8");
-	static BigInteger SIXTEEN = new BigInteger("16");
+	private static final BigInteger MINUS_ONE = new BigInteger("-1");
+	private static final BigInteger TWO = new BigInteger("2");
+	private static final BigInteger FOUR = new BigInteger("4");
+	private static final BigInteger FIVE = new BigInteger("5");
+	private static final BigInteger SIX = new BigInteger("6");
+	private static final BigInteger EIGHT = new BigInteger("8");
+	private static final BigInteger SIXTEEN = new BigInteger("16");
 
-	static BigInteger k;
-	static BigInteger pow;
-	static BigInteger divider;
+	private static BigInteger k;
+	private static BigInteger pow;
+	private static BigInteger divider;
 
-	static BigDecimal t;
-	static BigDecimal exp;
-	static BigDecimal newt;
+	private static BigDecimal t;
+	private static BigDecimal exp;
+	private static BigDecimal newt;
 
-	static BigDecimal s;
+	private static BigDecimal s;
 
 	public static void debug() {
 		// calculateSum(new BigInteger("1"), new BigInteger("10"));
