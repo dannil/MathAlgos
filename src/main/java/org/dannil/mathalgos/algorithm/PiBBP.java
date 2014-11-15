@@ -64,15 +64,14 @@ public class PiBBP {
 		t = new BigDecimal("0.0");
 		k = n.add(BigInteger.ONE);
 		System.out.println("New k: " + k);
-		boolean loop = true;
 		while (true) {
 			System.out.println("N: " + n);
 			System.out.println("K: " + k);
 
 			// exp = pow(16, n - k)
-			// As BigInteger.pow() doesn't accept negative exponents, we need
-			// to refactor the expression pow(16, n - k) to 1/(16^(n - k))
-			BigInteger divider = BigInteger.valueOf(n.intValue() - k.intValue()).multiply(MINUS_ONE);
+			// As BigInteger.pow() doesn't accept negative exponents, we need to
+			// refactor the expression pow(16, n - k) to 1/(16^(k - n)
+			BigInteger divider = BigInteger.valueOf(k.intValue() - n.intValue());
 			System.out.println("divider: " + divider);
 			exp = BigDecimal.ONE.divide(new BigDecimal(SIXTEEN.pow(divider.intValue())), scale, roundingMode);
 			System.out.println("t: " + t);
@@ -88,7 +87,6 @@ public class PiBBP {
 				t = newt;
 			}
 			k = k.add(BigInteger.ONE);
-			loop = false;
 		}
 
 		System.out.println("s: " + s);
