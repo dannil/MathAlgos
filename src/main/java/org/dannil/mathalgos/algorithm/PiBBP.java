@@ -10,7 +10,6 @@ public class PiBBP {
 
 	private static final int scale = 20;
 
-	private static final BigInteger MINUS_ONE = new BigInteger("-1");
 	private static final BigInteger TWO = new BigInteger("2");
 	private static final BigInteger FOUR = new BigInteger("4");
 	private static final BigInteger FIVE = new BigInteger("5");
@@ -30,22 +29,34 @@ public class PiBBP {
 
 	public static void debug() {
 		// calculateSum(new BigInteger("1"), new BigInteger("10"));
-		computePi(new BigInteger("0"));
+		System.out.println(computePi(new BigInteger("10000")));
 	}
 
-	public static String computePi(BigInteger decimals) {
+	public static String computePi(final BigInteger decimals) {
 		final BigInteger n = decimals.subtract(BigInteger.ONE);
 		final BigDecimal first = new BigDecimal(FOUR).multiply(calculateSum(BigInteger.ONE, n));
+		// System.out.println("first: " + first);
 		final BigDecimal second = new BigDecimal(TWO).multiply(calculateSum(FOUR, n));
+		// System.out.println("second: " + second);
 		final BigDecimal third = calculateSum(FIVE, n);
+		// System.out.println("third: " + third);
 		final BigDecimal fourth = calculateSum(SIX, n);
-		final BigDecimal x = first.subtract(second).subtract(third).subtract(fourth).remainder(BigDecimal.ONE);
-		System.out.println(x);
-		return x.toString();
+		// System.out.println("fourth: " + fourth);
+		BigDecimal x = first.subtract(second).subtract(third).subtract(fourth).remainder(BigDecimal.ONE);
+		// System.out.println("x: " + x);
+		if (x.compareTo(BigDecimal.ZERO) < 0) {
+			x = x.add(BigDecimal.ONE);
+		}
+		// System.out.println("x: " + x);
+		BigInteger y = x.multiply(new BigDecimal(SIXTEEN.pow(14))).toBigInteger();
+		// System.out.println(y);
+		// System.out.println(y.toString(16));
+		return y.toString(16);
 	}
 
 	private static BigDecimal calculateSum(final BigInteger j, final BigInteger n) {
 		// Left sum
+		// System.out.println("--- LEFT SUM ---");
 		s = new BigDecimal("0");
 
 		for (k = new BigInteger("0"); k.compareTo(n) <= 0; k = k.add(BigInteger.ONE)) {
@@ -61,6 +72,7 @@ public class PiBBP {
 		// System.out.println("K: " + k);
 
 		// Right sum
+		// System.out.println("--- RIGHT SUM ---");
 		t = new BigDecimal("0.0");
 		k = n.add(BigInteger.ONE);
 		// System.out.println("New k: " + k);
@@ -87,12 +99,6 @@ public class PiBBP {
 				t = newt;
 			}
 		}
-
-		System.out.println("s: " + s);
-		System.out.println("t: " + t);
-
-		BigDecimal abc = s.add(t);
-		System.out.println("abc: " + abc);
 
 		return s.add(t);
 	}
