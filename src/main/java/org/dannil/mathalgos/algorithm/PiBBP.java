@@ -18,9 +18,9 @@ public class PiBBP {
 	static BigInteger EIGHT = new BigInteger("8");
 	static BigInteger SIXTEEN = new BigInteger("16");
 
-	static BigInteger r;
 	static BigInteger k;
 	static BigInteger pow;
+	static BigInteger divider;
 
 	static BigDecimal t;
 	static BigDecimal exp;
@@ -49,44 +49,43 @@ public class PiBBP {
 		s = new BigDecimal("0");
 
 		for (k = new BigInteger("0"); k.compareTo(n) <= 0; k = k.add(BigInteger.ONE)) {
-			r = EIGHT.multiply(k).add(j);
-			System.out.println("R: " + r);
+			BigInteger r = EIGHT.multiply(k).add(j);
+			// System.out.println("R: " + r);
 
 			pow = SIXTEEN.pow(n.intValue() - k.intValue()).mod(r);
-			System.out.println("pow: " + pow);
+			// System.out.println("pow: " + pow);
 
 			s = new BigDecimal(pow).divide(new BigDecimal(r), scale, roundingMode).add(s).remainder(BigDecimal.ONE);
-			System.out.println("S: " + s);
+			// System.out.println("S: " + s);
 		}
-		System.out.println("K: " + k);
+		// System.out.println("K: " + k);
 
 		// Right sum
 		t = new BigDecimal("0.0");
 		k = n.add(BigInteger.ONE);
-		System.out.println("New k: " + k);
-		while (true) {
-			System.out.println("N: " + n);
-			System.out.println("K: " + k);
+		// System.out.println("New k: " + k);
+		for (k = n.add(BigInteger.ONE);; k = k.add(BigInteger.ONE)) {
+			// System.out.println("N: " + n);
+			// System.out.println("K: " + k);
 
 			// exp = pow(16, n - k)
 			// As BigInteger.pow() doesn't accept negative exponents, we need to
 			// refactor the expression pow(16, n - k) to 1/(16^(k - n)
-			BigInteger divider = BigInteger.valueOf(k.intValue() - n.intValue());
-			System.out.println("divider: " + divider);
+			divider = BigInteger.valueOf(k.intValue() - n.intValue());
+			// System.out.println("divider: " + divider);
 			exp = BigDecimal.ONE.divide(new BigDecimal(SIXTEEN.pow(divider.intValue())), scale, roundingMode);
-			System.out.println("t: " + t);
-			System.out.println("exp: " + exp);
+			// System.out.println("t: " + t);
+			// System.out.println("exp: " + exp);
 
 			// newt = t + pow(16, n - k) / (8 * k + j)
 			newt = exp.divide(new BigDecimal(EIGHT.multiply(k).add(j)), scale, roundingMode).add(t);
-			System.out.println("newt: " + newt);
+			// System.out.println("newt: " + newt);
 
 			if (t.compareTo(newt) == 0) {
 				break;
 			} else {
 				t = newt;
 			}
-			k = k.add(BigInteger.ONE);
 		}
 
 		System.out.println("s: " + s);
