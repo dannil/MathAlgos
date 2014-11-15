@@ -66,18 +66,18 @@ public class PiChudnovsky {
 		final BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
 
 		final BigInteger Q = array[1];
-		System.out.println("Q: " + Q);
+		// System.out.println("Q: " + Q);
 		final BigInteger T = array[2];
-		System.out.println("T: " + T);
+		// System.out.println("T: " + T);
 
 		// THE THREE LINES BELOW CONTRIBUTE TO THE MAJOR RUNNING TIME
 		// (ESPECIALLY LINE 2); THIS NEEDS TO BE OPTIMIZED TO REDUCE THE RUNNING
 		// TIME SIGNIFICANTLY
 		final BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
-		System.out.println("ONE_SQUARED: " + ONE_SQUARED);
+		// System.out.println("ONE_SQUARED: " + ONE_SQUARED);
 
 		final BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
-		System.out.println("SQRT_C: " + SQRT_C);
+		// System.out.println("SQRT_C: " + SQRT_C);
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
 	}
