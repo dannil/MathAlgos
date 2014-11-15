@@ -46,7 +46,7 @@ public class PiChudnovsky {
 	 * @return A string presentation of a BigInteger containing pi truncated to the amount
 	 * 		   of supplied decimals
 	 */
-	public static final String computePiStringPresentation(BigInteger decimals) {
+	public static final String computePiStringPresentation(final BigInteger decimals) {
 		String piString = computePi(decimals).toString();
 		return new StringBuffer(piString).insert(1, ".").toString();
 	}
@@ -58,7 +58,7 @@ public class PiChudnovsky {
 	 * 					- The amount of decimals to calculate
 	 * @return A BigInteger containing truncated pi
 	 */
-	public static final BigInteger computePi(BigInteger decimals) {
+	public static final BigInteger computePi(final BigInteger decimals) {
 		final double DIGITS_PER_TERM = Math.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.doubleValue() / 6 / 2 / 6);
 
 		final BigInteger N = BigInteger.valueOf((long) (decimals.doubleValue() / DIGITS_PER_TERM + 1));
