@@ -11,8 +11,9 @@ public class NumberHelper {
 	 * Splits a number into its digits.
 	 * 
 	 * @param t
-	 *            - The number to split.
-	 * @return The digits of the splitted number.
+	 *            - The number to split
+	 *            
+	 * @return The digits of the splitted number
 	 */
 	public static List<Integer> splitIntoDigits(int t) {
 		// System.out.println("split");
@@ -28,10 +29,11 @@ public class NumberHelper {
 	}
 
 	/**
-	 * Calculates the square root of the supplied BigDecimal.
+	 * Calculates the square root of the supplied BigInteger.
 	 * 
 	 * @param x 
 	 * 				  - The value to be calculated
+	 * 
 	 * @return The square root of value
 	 */
 	public static BigInteger sqrt(BigInteger x) {
