@@ -29,8 +29,15 @@ public class PiBBP {
 
 	public static void debug() {
 		// calculateSum(new BigInteger("1"), new BigInteger("10"));
-		System.out.println(computePi(new BigInteger("10000")));
+		// System.out.println(computePi(new BigInteger("1")));
 	}
+
+	// public static Integer getDigit(final BigInteger decimalPlace) {
+	// String pi = computePi(decimalPlace);
+	// long l = Long.parseLong(pi, 16);
+	// System.out.println(l);
+	// return 1;
+	// }
 
 	public static String computePi(final BigInteger decimals) {
 		final BigInteger n = decimals.subtract(BigInteger.ONE);
