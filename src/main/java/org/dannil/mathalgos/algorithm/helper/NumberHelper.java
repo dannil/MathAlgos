@@ -32,9 +32,9 @@ public class NumberHelper {
 	 * Calculates the square root of the supplied BigInteger.
 	 * 
 	 * @param x 
-	 * 				  - The value to be calculated
+	 * 			- The value to be calculated
 	 * 
-	 * @return The square root of value
+	 * @return The square root of x
 	 */
 	public static BigInteger sqrt(BigInteger x) {
 		BigInteger div = BigInteger.ZERO.setBit(x.bitLength() / 2);
@@ -50,4 +50,15 @@ public class NumberHelper {
 		}
 	}
 
+	/**
+	 * Calculates the 10 logarithm for the supplied BigInteger.
+	 * 
+	 * @param x
+	 * 			- The value to be calculated
+	 * 
+	 * @return The logarithm for x
+	 */
+	public static BigInteger log10(BigInteger x) {
+		return new BigInteger(Integer.toString(x.toString().length() - 1));
+	}
 }

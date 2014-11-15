@@ -59,21 +59,25 @@ public class PiChudnovsky {
 	 * @return A BigInteger containing truncated pi
 	 */
 	public static final BigInteger computePi(final BigInteger decimals) {
-		final double DIGITS_PER_TERM = Math.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.doubleValue() / 6 / 2 / 6);
+		final BigInteger DIGITS_PER_TERM = NumberHelper.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX));
 
-		final BigInteger N = BigInteger.valueOf((long) (decimals.doubleValue() / DIGITS_PER_TERM + 1));
+		final BigInteger N = decimals.divide(DIGITS_PER_TERM).add(BigInteger.ONE);
 
 		final BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
 
 		final BigInteger Q = array[1];
+		System.out.println("Q: " + Q);
 		final BigInteger T = array[2];
+		System.out.println("T: " + T);
 
 		// THE THREE LINES BELOW CONTRIBUTE TO THE MAJOR RUNNING TIME
 		// (ESPECIALLY LINE 2); THIS NEEDS TO BE OPTIMIZED TO REDUCE THE RUNNING
 		// TIME SIGNIFICANTLY
 		final BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
+		System.out.println("ONE_SQUARED: " + ONE_SQUARED);
 
 		final BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
+		System.out.println("SQRT_C: " + SQRT_C);
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
 	}
