@@ -50,3 +50,4 @@ local.properties
 hs_err_pid*
 
 ### End Java ###
+/target/
