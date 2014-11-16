@@ -58,7 +58,8 @@ public class NumberHelper {
 	 * 
 	 * @return The logarithm for x
 	 */
-	public static BigInteger log10(BigInteger x) {
+	public static BigInteger log10(final BigInteger x) {
 		return new BigInteger(Integer.toString(x.toString().length() - 1));
 	}
+
 }
