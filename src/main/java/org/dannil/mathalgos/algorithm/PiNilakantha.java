@@ -16,17 +16,18 @@ public class PiNilakantha {
 	private static BigDecimal divisions;
 
 	public static final void debug() {
-		System.out.println(computePi(new BigInteger("1000")));
+		System.out.println(computePi(new BigInteger("100000")));
 	}
 
 	private static final BigDecimal computePi(final BigInteger iterations) {
 		BigDecimal pi = new BigDecimal("3.0");
-		BigInteger decimalPlaces = iterations.multiply(THREE);
+		Integer decimalPlaces = (int) Math.pow(iterations.toString().length() - 1, 2);
+		// System.out.println(decimalPlaces);
 		boolean plus = true;
 
-		for (BigInteger k = THREE; k.compareTo(decimalPlaces) < 0; k = k.add(TWO)) {
+		for (BigInteger k = THREE; k.compareTo(iterations) < 0; k = k.add(TWO)) {
 			multiplications = (k.subtract(BigInteger.ONE).multiply(k).multiply(k.add(BigInteger.ONE)));
-			divisions = new BigDecimal(FOUR).divide(new BigDecimal(multiplications), decimalPlaces.intValue(), roundingMode);
+			divisions = new BigDecimal(FOUR).divide(new BigDecimal(multiplications), decimalPlaces, roundingMode);
 			if (plus) {
 				pi = pi.add(divisions);
 			} else {
