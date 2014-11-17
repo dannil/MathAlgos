@@ -47,8 +47,7 @@ public class PiChudnovsky {
 	 * 		   of supplied decimals
 	 */
 	public static final String computePiStringPresentation(final BigInteger decimals) {
-		String piString = computePi(decimals).toString();
-		return new StringBuffer(piString).insert(1, ".").toString();
+		return new StringBuffer(computePi(decimals).toString()).insert(1, ".").toString();
 	}
 
 	/**
