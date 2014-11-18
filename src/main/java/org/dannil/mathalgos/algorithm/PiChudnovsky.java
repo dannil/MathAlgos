@@ -2,14 +2,14 @@ package org.dannil.mathalgos.algorithm;
 
 import java.math.BigInteger;
 
-import org.dannil.mathalgos.algorithm.helper.NumberHelper;
+import org.dannil.mathalgos.algorithm.helper.BigIntegerHelper;
 
 /**
  * <p>Class that implements the Chudnovsky brothers solution of computing pi
  * to a specified amount of decimal places</p>
  * 
  * </p>Credits to Nick Craig-Wood for showing a Python implementation which I used
- * as a basis for this class (see http://www.craig-wood.com/nick/articles/pi-chudnovsky/)</p>
+ * as a basis for this class (see <url>http://www.craig-wood.com/nick/articles/pi-chudnovsky/</url>)</p>
  * 
  * @author Daniel Nilsson
  *
@@ -58,24 +58,21 @@ public class PiChudnovsky {
 	 * @return A BigInteger containing truncated pi
 	 */
 	public static final BigInteger computePi(final BigInteger decimals) {
-		final BigInteger DIGITS_PER_TERM = NumberHelper.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX));
+		final BigInteger DIGITS_PER_TERM = BigIntegerHelper.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX));
 
 		final BigInteger N = decimals.divide(DIGITS_PER_TERM).add(BigInteger.ONE);
 
 		final BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
 
 		final BigInteger Q = array[1];
-		// System.out.println("Q: " + Q);
+		System.out.println("Q: " + Q);
 		final BigInteger T = array[2];
-		// System.out.println("T: " + T);
+		System.out.println("T: " + T);
 
-		// THE THREE LINES BELOW CONTRIBUTE TO THE MAJOR RUNNING TIME
-		// (ESPECIALLY LINE 2); THIS NEEDS TO BE OPTIMIZED TO REDUCE THE RUNNING
-		// TIME SIGNIFICANTLY
-		final BigInteger ONE_SQUARED = BigInteger.TEN.pow(2 * decimals.intValue());
-		// System.out.println("ONE_SQUARED: " + ONE_SQUARED);
-
-		final BigInteger SQRT_C = NumberHelper.sqrt(TENTHOUSHAND.multiply(ONE_SQUARED));
+		// THE TWWO LINES BELOW CONTRIBUTE TO THE MAJOR RUNNING TIME
+		// (ESPECIALLY LINE 1 SQUARE ROOTING); THIS NEEDS TO BE OPTIMIZED TO
+		// REDUCE THE RUNNING TIME SIGNIFICANTLY
+		final BigInteger SQRT_C = BigIntegerHelper.sqrt(TENTHOUSHAND.multiply(BigInteger.TEN.pow(2 * decimals.intValue())));
 		// System.out.println("SQRT_C: " + SQRT_C);
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
