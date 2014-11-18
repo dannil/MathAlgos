@@ -3,7 +3,7 @@ package org.dannil.mathalgos.algorithm;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.dannil.mathalgos.algorithm.helper.NumberHelper;
+import org.dannil.mathalgos.algorithm.helper.IntegerHelper;
 
 public class Luhn {
 
@@ -20,7 +20,7 @@ public class Luhn {
 		List<Integer> result = new LinkedList<Integer>();
 
 		// Step 1: Split the number into it's digits and store them in a list
-		digits = NumberHelper.splitIntoDigits(t);
+		digits = IntegerHelper.splitIntoDigits(t);
 
 		// Step 2: For every digit, multiply the digits which has even
 		// positions with 2 and the digits which has uneven positions with 1
@@ -38,7 +38,7 @@ public class Luhn {
 			// and remove the detected number from the list. We then insert our
 			// new numbers we got after the split into the old numbers position
 			if (res >= 10) {
-				List<Integer> temp = NumberHelper.splitIntoDigits(res);
+				List<Integer> temp = IntegerHelper.splitIntoDigits(res);
 				result.addAll(temp);
 			} else {
 				result.add(res);
