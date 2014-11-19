@@ -63,11 +63,9 @@ public class PiChudnovsky {
 	 * @return A BigInteger containing truncated pi
 	 */
 	public static final BigInteger computePi(final BigInteger decimals) {
-		final BigDecimal DIGITS_PER_TERM = BigDecimalMath.log10(new BigDecimal(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX)));
-		System.out.println("DIGITS_PER_TERM: " + DIGITS_PER_TERM);
+		final BigDecimal DIGITS_PER_TERM = BigDecimalMath.log10(new BigDecimal(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX))).setScale(20, roundingMode);
 
-		final BigInteger N = new BigDecimal(decimals).divide(DIGITS_PER_TERM, DIGITS_PER_TERM.toBigInteger().intValue(), roundingMode).add(BigDecimal.ONE).toBigInteger();
-		System.out.println("N: " + N);
+		final BigInteger N = new BigDecimal(decimals).divide(DIGITS_PER_TERM, DIGITS_PER_TERM.setScale(0, roundingMode).toBigInteger().intValue(), roundingMode).add(BigDecimal.ONE).toBigInteger();
 
 		final BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
 
@@ -80,7 +78,7 @@ public class PiChudnovsky {
 		// (ESPECIALLY LINE 1 SQUARE ROOTING OPERATION); THIS NEEDS TO BE
 		// OPTIMIZED TO REDUCE THE RUNNING TIME SIGNIFICANTLY
 		final BigInteger SQRT_C = BigIntegerMath.sqrt(TENTHOUSHAND.multiply(BigInteger.TEN.pow(2 * decimals.intValue())));
-		System.out.println("SQRT_C: " + SQRT_C);
+		// System.out.println("SQRT_C: " + SQRT_C);
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
 	}
