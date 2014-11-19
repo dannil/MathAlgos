@@ -1,8 +1,11 @@
 package org.dannil.mathalgos.algorithm;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
-import org.dannil.mathalgos.algorithm.helper.BigIntegerHelper;
+import org.dannil.mathalgos.math.BigDecimalMath;
+import org.dannil.mathalgos.math.BigIntegerMath;
 
 /**
  * <p>Class that implements the Chudnovsky brothers solution of computing pi
@@ -15,6 +18,8 @@ import org.dannil.mathalgos.algorithm.helper.BigIntegerHelper;
  *
  */
 public class PiChudnovsky {
+
+	private static final RoundingMode roundingMode = RoundingMode.HALF_EVEN;
 
 	/* Magic numbers used for making the calculation work */
 	private static final BigInteger MINUS_ONE = new BigInteger("-1");
@@ -58,22 +63,24 @@ public class PiChudnovsky {
 	 * @return A BigInteger containing truncated pi
 	 */
 	public static final BigInteger computePi(final BigInteger decimals) {
-		final BigInteger DIGITS_PER_TERM = BigIntegerHelper.log10(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX));
+		final BigDecimal DIGITS_PER_TERM = BigDecimalMath.log10(new BigDecimal(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX)));
+		System.out.println("DIGITS_PER_TERM: " + DIGITS_PER_TERM);
 
-		final BigInteger N = decimals.divide(DIGITS_PER_TERM).add(BigInteger.ONE);
+		final BigInteger N = new BigDecimal(decimals).divide(DIGITS_PER_TERM, DIGITS_PER_TERM.toBigInteger().intValue(), roundingMode).add(BigDecimal.ONE).toBigInteger();
+		System.out.println("N: " + N);
 
 		final BigInteger[] array = calculateTerms(BigInteger.ZERO, N);
 
 		final BigInteger Q = array[1];
-		System.out.println("Q: " + Q);
+		// System.out.println("Q: " + Q);
 		final BigInteger T = array[2];
-		System.out.println("T: " + T);
+		// System.out.println("T: " + T);
 
 		// THE TWO LINES BELOW CONTRIBUTE TO THE MAJOR RUNNING TIME
 		// (ESPECIALLY LINE 1 SQUARE ROOTING OPERATION); THIS NEEDS TO BE
 		// OPTIMIZED TO REDUCE THE RUNNING TIME SIGNIFICANTLY
-		final BigInteger SQRT_C = BigIntegerHelper.sqrt(TENTHOUSHAND.multiply(BigInteger.TEN.pow(2 * decimals.intValue())));
-		// System.out.println("SQRT_C: " + SQRT_C);
+		final BigInteger SQRT_C = BigIntegerMath.sqrt(TENTHOUSHAND.multiply(BigInteger.TEN.pow(2 * decimals.intValue())));
+		System.out.println("SQRT_C: " + SQRT_C);
 
 		return Q.multiply(FOURHUNDREDTHOUSAND).multiply(SQRT_C).divide(T);
 	}

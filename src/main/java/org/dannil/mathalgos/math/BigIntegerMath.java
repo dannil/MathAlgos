@@ -1,12 +1,13 @@
-package org.dannil.mathalgos.algorithm.helper;
+package org.dannil.mathalgos.math;
 
 import java.math.BigInteger;
 
-public class BigIntegerHelper {
+public class BigIntegerMath {
 
 	private static final BigInteger MINUS_ONE = new BigInteger("-1");
 	private static final BigInteger TWO = new BigInteger("2");
 	private static final BigInteger FOUR = new BigInteger("4");
+	private static final BigInteger SIXTEEN = new BigInteger("16");
 
 	/**
 	 * Calculates the square root of the supplied BigInteger.
@@ -34,13 +35,11 @@ public class BigIntegerHelper {
 		BigInteger result = new BigInteger("0");
 		BigInteger n = x.subtract(BigInteger.ONE);
 
-		for (BigInteger k = new BigInteger("1"); k.compareTo(n) < 0; k = k.add(BigInteger.ONE)) {
+		for (BigInteger k = new BigInteger("1"); k.compareTo(x) < 0; k = k.add(BigInteger.ONE)) {
 			System.out.println("factorial: " + factorial(k));
 			System.out.println("loop");
 			BigInteger top = MINUS_ONE.pow(k.intValue()).multiply(factorial(k.multiply(TWO)));
-			BigInteger bottom_left = factorial(FOUR.pow(k.intValue()).multiply(k)).pow(2);
-			BigInteger bottom_right = BigInteger.ONE.subtract(k.multiply(TWO));
-			BigInteger bottom = bottom_left.multiply(bottom_right);
+			BigInteger bottom = SIXTEEN.pow(k.intValue()).multiply(factorial(k).pow(2));
 			System.out.println("top: " + top);
 			System.out.println("bottom: " + bottom);
 			System.out.println("top/bottom: " + (top.divide(bottom)));
