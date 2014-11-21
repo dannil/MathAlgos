@@ -114,7 +114,7 @@ public class PiChudnovsky {
 			Tab = Pab.multiply(a.multiply(FIVEHUNDREDFOURTYFIVEMILLION).add(THIRTEENMILLION));
 
 			if (a.mod(TWO).equals(BigInteger.ONE)) {
-				Tab = Tab.multiply(MINUS_ONE);
+				Tab = Tab.negate();
 			}
 		} else {
 			// Recursively compute P(a,b), Q(a,b) and T(a,b)
