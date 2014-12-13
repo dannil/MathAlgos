@@ -9,10 +9,10 @@ import org.dannil.mathalgos.math.BigIntegerMath;
 
 /**
  * <p>Class that implements the Chudnovsky brothers solution of computing pi
- * to a specified amount of decimal places</p>
+ * to a specified amount of decimal places.</p>
  * 
  * </p>Credits to Nick Craig-Wood for showing a Python implementation which I used
- * as a basis for this class (see <url>http://www.craig-wood.com/nick/articles/pi-chudnovsky/</url>)</p>
+ * as a basis for this class (see <url>http://www.craig-wood.com/nick/articles/pi-chudnovsky/</url>).</p>
  * 
  * @author Daniel Nilsson
  *
@@ -47,9 +47,9 @@ public class PiChudnovsky {
 	 * and transform the result into a string after the benchmark.<p>
 	 * 
 	 * @param decimals 
-	 * 					- The amount of decimals to calculate
-	 * @return A string presentation of a BigInteger containing pi truncated to the amount
-	 * 		   of supplied decimals
+	 * 					the amount of decimals to calculate
+	 * @return a string presentation of a BigInteger containing pi truncated to the amount
+	 * 		   of the specified amount of decimals
 	 */
 	public static final String computePiStringPresentation(final BigInteger decimals) {
 		return new StringBuffer(computePi(decimals).toString()).insert(1, ".").toString();
@@ -59,8 +59,8 @@ public class PiChudnovsky {
 	 * <p>Computes Pi to the specified amount of decimals.</p>
 	 * 
 	 * @param decimals 
-	 * 					- The amount of decimals to calculate
-	 * @return A BigInteger containing truncated pi
+	 * 					the amount of decimals to calculate
+	 * @return a BigInteger containing truncated pi
 	 */
 	public static final BigInteger computePi(final BigInteger decimals) {
 		final BigDecimal DIGITS_PER_TERM = BigDecimalMath.log10(new BigDecimal(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX))).setScale(20, roundingMode);
@@ -86,16 +86,17 @@ public class PiChudnovsky {
 	/**
 	 * <p>Computes the terms for binary splitting the Chudnovsky infinite series.</p>
 	 *
-	 * - a(a) = +/- (13591409 + 545140134*a)<br>
-	 * - p(a) = (6*a-5)*(2*a-1)*(6*a-1)<br>
-	 * - b(a) = 1<br>
-	 * - q(a) = SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24*a*a*a<br>
-	 * <br>
+	 * <pre>
+	 * - a(a) = +/- (13591409 + 545140134*a)
+	 * - p(a) = (6*a-5)*(2*a-1)*(6*a-1)
+	 * - b(a) = 1
+	 * - q(a) = SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24*a*a*a
+	 * </pre>
 	 *
 	 * @param a
-	 *            - Start value (default BigInteger.ZERO)
+	 *            start value (default BigInteger.ZERO)
 	 * @param b
-	 *            - End value (the number of decimals to calculate)
+	 *            end value (the number of decimals to calculate)
 	 * @return P(a,b), Q(a,b) and T(a,b)
 	 */
 	private static final BigInteger[] calculateTerms(final BigInteger a, final BigInteger b) {
