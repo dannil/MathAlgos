@@ -7,11 +7,15 @@ import org.dannil.mathalgos.algorithm.helper.BenchmarkHelper;
 
 public class TestPi {
 	public static void main(String[] args) {
+		BigInteger big = new BigInteger("100000");
+
 		BenchmarkHelper bench = new BenchmarkHelper();
 
 		bench.startBench();
-		System.out.println(PiChudnovsky.computePiStringPresentation(new BigInteger("100000")));
+		System.out.println(PiChudnovsky.computePiStringPresentation(big));
 		bench.stopBench();
 		System.out.println("Time (sec): " + bench.getBenchTimeInSeconds());
+
+		// PiNilakantha.debug();
 	}
 }
