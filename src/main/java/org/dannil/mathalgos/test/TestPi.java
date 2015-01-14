@@ -7,7 +7,7 @@ import org.dannil.mathalgos.algorithm.helper.BenchmarkHelper;
 
 public class TestPi {
 	public static void main(String[] args) {
-		BigInteger big = new BigInteger("100000");
+		BigInteger big = new BigInteger("10000");
 
 		BenchmarkHelper bench = new BenchmarkHelper();
 
