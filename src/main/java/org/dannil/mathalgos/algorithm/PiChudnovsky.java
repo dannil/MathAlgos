@@ -22,7 +22,6 @@ public class PiChudnovsky {
 	private static final RoundingMode roundingMode = RoundingMode.HALF_EVEN;
 
 	/* Magic numbers used for making the calculation work */
-	private static final BigInteger MINUS_ONE = new BigInteger("-1");
 	private static final BigInteger TWO = new BigInteger("2");
 	private static final BigInteger FIVE = new BigInteger("5");
 	private static final BigInteger SIX = new BigInteger("6");
