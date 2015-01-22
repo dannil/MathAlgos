@@ -123,19 +123,19 @@ public class PiChudnovsky {
 		} else {
 			// Recursively compute P(a,b), Q(a,b) and T(a,b)
 			// m is the midpoint of a and b
-			final BigInteger m = a.add(b).divide(TWO);
+			final BigInteger midpoint = a.add(b).divide(TWO);
 
 			// Recursively calculate P(a,m), Q(a,m) and T(a,m)
-			final BigInteger[] array_am = calculateTerms(a, m);
-			final BigInteger Pam = array_am[0];
-			final BigInteger Qam = array_am[1];
-			final BigInteger Tam = array_am[2];
+			final BigInteger[] lower_half = calculateTerms(a, midpoint);
+			final BigInteger Pam = lower_half[0];
+			final BigInteger Qam = lower_half[1];
+			final BigInteger Tam = lower_half[2];
 
 			// Recursively calculate P(m,b), Q(m,b) and T(m,b)
-			final BigInteger[] array_mb = calculateTerms(m, b);
-			final BigInteger Pmb = array_mb[0];
-			final BigInteger Qmb = array_mb[1];
-			final BigInteger Tmb = array_mb[2];
+			final BigInteger[] upper_half = calculateTerms(midpoint, b);
+			final BigInteger Pmb = upper_half[0];
+			final BigInteger Qmb = upper_half[1];
+			final BigInteger Tmb = upper_half[2];
 
 			// Now combine
 			Pab = Pam.multiply(Pmb);
@@ -144,11 +144,6 @@ public class PiChudnovsky {
 		}
 
 		// Return Pab, Qab and Tab in an array
-		final BigInteger[] array = new BigInteger[3];
-		array[0] = Pab;
-		array[1] = Qab;
-		array[2] = Tab;
-
-		return array;
+		return new BigInteger[] { Pab, Qab, Tab };
 	}
 }
