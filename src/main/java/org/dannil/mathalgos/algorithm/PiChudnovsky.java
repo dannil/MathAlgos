@@ -20,6 +20,7 @@ import org.dannil.mathalgos.math.BigIntegerMath;
 public class PiChudnovsky {
 
 	private static final RoundingMode roundingMode = RoundingMode.HALF_EVEN;
+	private static final int roundingScale = 20;
 
 	/* Magic numbers used for making the calculation work */
 	private static final BigInteger TWO = new BigInteger("2");
@@ -62,7 +63,7 @@ public class PiChudnovsky {
 	 * @return a BigInteger containing truncated pi
 	 */
 	public static final BigInteger computePi(final BigInteger decimals) {
-		final BigDecimal DIGITS_PER_TERM = BigDecimalMath.log10(new BigDecimal(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX))).setScale(20, roundingMode);
+		final BigDecimal DIGITS_PER_TERM = BigDecimalMath.log10(new BigDecimal(SIXHUNDREDFOURTYTHOUSAND_RAISED_3_OVER_24.divide(SIX).divide(TWO).divide(SIX))).setScale(roundingScale, roundingMode);
 
 		final BigInteger N = new BigDecimal(decimals).divide(DIGITS_PER_TERM, DIGITS_PER_TERM.setScale(0, roundingMode).toBigInteger().intValue(), roundingMode).add(BigDecimal.ONE).toBigInteger();
 
