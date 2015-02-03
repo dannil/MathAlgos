@@ -59,4 +59,12 @@ public class BenchmarkUtility {
 		return this.endMillis;
 	}
 
+	@Override
+	public final String toString() {
+		final StringBuilder result = new StringBuilder();
+
+		result.append("Start date: " + this.startMillisAsDate + ", End date: " + this.endMillisAsDate + ", Duration: " + this.getBenchTimeInSeconds());
+
+		return result.toString();
+	}
 }
