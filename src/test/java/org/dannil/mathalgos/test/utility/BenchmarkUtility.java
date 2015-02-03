@@ -63,7 +63,8 @@ public class BenchmarkUtility {
 	public final String toString() {
 		final StringBuilder result = new StringBuilder();
 
-		result.append("Start date: " + this.startMillisAsDate + ", End date: " + this.endMillisAsDate + ", Duration: " + this.getBenchTimeInSeconds());
+		result.append("Start date: " + this.startMillisAsDate + ", End date: " + this.endMillisAsDate + ", Duration: " + this.getBenchTimeInSeconds() + " seconds (" + this.getBenchTimeInMinutes()
+				+ " minutes");
 
 		return result.toString();
 	}
