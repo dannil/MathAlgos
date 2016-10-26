@@ -14,14 +14,14 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public final class TestPiChudnovsky {
+public  class TestPiChudnovsky {
 
-	private final static Logger LOGGER = Logger.getLogger(TestPiChudnovsky.class.getName());
+	private  static Logger LOGGER = Logger.getLogger(TestPiChudnovsky.class.getName());
 
 	private String expected;
 	private String actual;
 
-	public TestPiChudnovsky(final String expected, final String actual) {
+	public TestPiChudnovsky( String expected,  String actual) {
 		this.expected = expected;
 		this.actual = actual;
 	}
@@ -36,7 +36,7 @@ public final class TestPiChudnovsky {
 	// ------ PI ------ //
 
 	@Test
-	public final void calculatePiWithChudnovsky() {
+	public  void calculatePiWithChudnovsky() {
 		Assert.assertEquals(this.expected, this.actual);
 	}
 
